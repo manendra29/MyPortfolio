@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaJs, FaDatabase, FaGithub, FaLinkedin, FaEnvelope, FaPhone } from 'react-icons/fa';
 import { SiExpress, SiMongodb, SiPostgresql, SiMysql, SiNextdotjs, SiTypescript } from 'react-icons/si';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -13,6 +15,21 @@ const Portfolio = () => {
     "MERN Stack Expert         ",
     "Let's Work Together       "
   ];
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value
+    });
+  };
   const refs = {
     home: useRef(null),
     about: useRef(null),
@@ -171,6 +188,30 @@ const projects = [
       link: "#"
     }
 ];
+
+const handleSubmit=async(e)=>{
+    e.preventDefault();
+    try {
+        axios.post("http://my-portfolio-backend-pied.vercel.app/contact",{email:formData.email,
+            message:formData.message,
+            subject:formData.subject,
+            name:formData.name
+        },{
+            withCredentials:true,
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+        toast.success("Query Sent");
+        formData.email='';
+        formData.name='';
+        formData.message='';
+        formData.subject='';
+    } catch (error) {
+        toast.success("Query not Sent");
+        console.log(error);
+    }
+}
 
 
 
@@ -626,57 +667,54 @@ const projects = [
             >
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8">
                 <h3 className="text-xl font-semibold mb-6">Send a Message</h3>
-                <form className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm text-gray-400 mb-1">Name</label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 text-white focus:outline-none focus:border-pink-500 transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm text-gray-400 mb-1">Email</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 text-white focus:outline-none focus:border-pink-500 transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="subject" className="block text-sm text-gray-400 mb-1">Subject</label>
-                    
-                    <input 
-  type="text" 
-  id="subject" 
-  className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 text-white focus:outline-none focus:border-pink-500 transition-all" 
-/>
-
-
-
-
-
-
-
-
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block text-sm text-gray-400 mb-1">Message</label>
-                    <textarea 
-                      id="message" 
-                      rows="4" 
-                      className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 text-white focus:outline-none focus:border-pink-500 transition-all"
-                    ></textarea>
-                  </div>
-                  <motion.button 
-                    type="submit" 
-                    className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-pink-600 to-violet-600 text-white font-medium shadow-xl hover:shadow-pink-500/30 transition-all"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Send Message
-                  </motion.button>
-                </form>
+                <form className="space-y-4" onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="name" className="block text-sm text-gray-400 mb-1">Name</label>
+        <input 
+          type="text" 
+          id="name" 
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 text-white focus:outline-none focus:border-pink-500 transition-all"
+        />
+      </div>
+      <div>
+        <label htmlFor="email" className="block text-sm text-gray-400 mb-1">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 text-white focus:outline-none focus:border-pink-500 transition-all"
+        />
+      </div>
+      <div>
+        <label htmlFor="subject" className="block text-sm text-gray-400 mb-1">Subject</label>
+        <input 
+          type="text" 
+          id="subject" 
+          value={formData.subject}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 text-white focus:outline-none focus:border-pink-500 transition-all" 
+        />
+      </div>
+      <div>
+        <label htmlFor="message" className="block text-sm text-gray-400 mb-1">Message</label>
+        <textarea 
+          id="message" 
+          rows="4" 
+          value={formData.message}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 text-white focus:outline-none focus:border-pink-500 transition-all"
+        ></textarea>
+      </div>
+      <button 
+        type="submit" 
+        className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-pink-600 to-violet-600 text-white font-medium shadow-xl hover:shadow-pink-500/30 transition-all"
+      >
+        Send Message
+      </button>
+    </form>
               </div>
             </motion.div>
           </div>
