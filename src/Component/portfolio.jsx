@@ -164,6 +164,14 @@ const projects = [
       link: "https://github.com/manendra29/CollegeFusion"
     },
     {
+      "id": 3,
+      "title": "School Website",
+      "description": "A dynamic and user-friendly website for a school, offering information on academics, events, and student resources, along with an intuitive interface for easy navigation.",
+      "tech": ["HTML", "CSS", "JavaScript", "React", "Node.js", "Express.js", "MongoDB"],
+      "image": "/images/school2.png",
+      "link": "https://canopus-orpin.vercel.app/"
+    },    
+    {
       id: 3,
       title: "EstateVision",
       description: "Comprehensive real estate platform offering property listings, virtual tours, mortgage calculators, and agent connections for seamless property transactions.",
