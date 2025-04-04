@@ -1070,8 +1070,8 @@ const Portfolio = () => {
       title: "MyPortfolio",
       description: "Personal portfolio website showcasing professional achievements, technical skills, project history, and contact information with a modern, responsive design.",
       tech: ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS", "Three.js", "Framer Motion"],
-      image: "/images/portfolio.png",
-      link: "#"
+      image: "/images/image.png",
+      link: "https://my-portfolio-five-peach-36.vercel.app/"
     },
     {
       id: 6,
